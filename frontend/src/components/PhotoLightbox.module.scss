@@ -1,0 +1,34 @@
+@use '../styles/variables' as v;
+
+.lightbox {
+    width: 100% !important;
+    max-width: v.$max-content-width !important;
+}
+
+.viewDiaryBtnWrapper {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.viewDiaryBtn {
+    pointer-events: auto;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50px;
+    padding-inline: 8cqw;
+    padding-block: calc(0.5rem + 0.5cqh);
+    font-size: v.$font-size-base;
+    font-family: v.$font-family;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    white-space: nowrap;
+
+    &:active {
+        opacity: 0.75;
+    }
+}

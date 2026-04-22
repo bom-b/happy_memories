@@ -1,0 +1,183 @@
+@use '../styles/variables' as v;
+@use '../styles/mixins' as m;
+
+/* ── 오버레이 ── */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 24px;
+}
+
+/* ── 모달 ── */
+.sheet {
+    background: v.$color-bg;
+    border-radius: 20px;
+    padding: 28px 24px;
+    width: 100%;
+    max-width: 360px;
+}
+
+/* ── react-day-picker 커스텀 스타일 ── */
+
+/* 커스텀 캡션 행 */
+.captionRow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.captionLabel {
+    font-size: v.$font-size-base;
+    font-weight: 700;
+    color: v.$color-primary;
+    font-family: v.$font-family;
+    min-width: 100px;
+    text-align: center;
+}
+
+.navBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1;
+    color: v.$color-primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    &:hover:not(:disabled) {
+        background: #f0f0f0;
+    }
+
+    &:disabled {
+        color: v.$color-border;
+        cursor: not-allowed;
+    }
+}
+
+.calendar {
+    --rdp-accent-color: #{v.$color-primary};
+    --rdp-accent-background-color: #{v.$color-primary};
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    width: 100%;
+
+    :global(.rdp-month) {
+        @include m.flex-center;
+        flex-direction: column;
+    }
+
+    :global(.rdp-month_grid) {
+        height: 258px;
+    }
+
+    /* 기본 rdp-month_caption은 그대로 표시 (CustomMonthCaption이 내부를 대체함) */
+    :global(.rdp-month_caption) {
+        display: block;
+    }
+
+    /* 기본 nav는 숨김 (CustomMonthCaption 안 버튼으로 대체) */
+    :global(.rdp-nav) {
+        display: none;
+    }
+
+    /* 요일 헤더 */
+    :global(.rdp-weekdays) {
+        display: flex;
+    }
+
+    :global(.rdp-weekday) {
+        flex: 1;
+        text-align: center;
+        font-size: v.$font-size-xs;
+        color: v.$color-text-secondary;
+        font-weight: 500;
+        padding-bottom: 8px;
+        font-family: v.$font-family;
+    }
+
+    /* 날짜 그리드 */
+    :global(.rdp-weeks) {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    :global(.rdp-week) {
+        display: flex;
+    }
+
+    :global(.rdp-day) {
+        flex: 1;
+        aspect-ratio: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    :global(.rdp-day_button) {
+        width: 36px;
+        height: 36px;
+        border: none;
+        background: none;
+        border-radius: 50%;
+        font-size: v.$font-size-sm;
+        font-family: v.$font-family;
+        color: v.$color-text;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+            background: #f0f0f0;
+        }
+    }
+
+    /* 오늘 날짜 */
+    :global(.rdp-today) :global(.rdp-day_button) {
+        font-weight: 700;
+        color: v.$color-primary;
+        border: 1.5px solid v.$color-primary;
+    }
+
+    /* 선택된 날짜 */
+    :global(.rdp-selected) :global(.rdp-day_button) {
+        background: v.$color-primary !important;
+        color: #fff !important;
+        border: none !important;
+        font-weight: 700;
+    }
+
+    /* 비활성(다른 달) 날짜 */
+    :global(.rdp-outside) :global(.rdp-day_button) {
+        color: v.$color-border;
+    }
+
+    /* 비활성화된 날짜 */
+    :global(.rdp-disabled) :global(.rdp-day_button) {
+        color: v.$color-border;
+        cursor: not-allowed;
+
+        &:hover {
+            background: none;
+        }
+    }
+}

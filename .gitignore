@@ -1,0 +1,18 @@
+# 환경 변수 / 시크릿
+.env
+
+# 업로드 파일 (런타임 생성)
+/uploads/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+
+# GitHub Actions 로컬 실행 도구
+.act/
+
+.github/instructions/

@@ -1,0 +1,253 @@
+@use '../styles/variables' as v;
+@use '../styles/mixins' as m;
+
+/* ── 페이지 레이아웃 ── */
+.page {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    overflow: hidden;
+}
+
+/* ── 상단 헤더 ── */
+.header {
+    flex-shrink: 0;
+    height: v.$header-height;
+    background: v.$color-bg;
+}
+
+.headerInner {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 100%;
+    padding: 0 v.$header-padding-x;
+}
+
+.title {
+    font-size: v.$font-size-base;
+    font-weight: 600;
+    color: v.$color-text;
+}
+
+.iconBtn {
+    @include m.icon-btn;
+}
+
+/* ── 달력 섹션 ── */
+.calendarSection {
+    flex-shrink: 0;
+    border-bottom: 1px solid v.$color-border;
+    padding: 8px 0 4px;
+}
+
+/* ── 커스텀 캡션 (연/월 내비게이션) ── */
+.caption {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 8px 12px;
+    gap: 2px;
+}
+
+.captionLabel {
+    font-size: v.$font-size-base;
+    font-weight: 700;
+    color: v.$color-primary;
+    min-width: 130px;
+    text-align: center;
+    font-family: v.$font-family;
+}
+
+.navBtn {
+    @include m.icon-btn;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1;
+    color: v.$color-primary;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, color 0.15s;
+
+    &:hover:not(:disabled) {
+        background: #f2f2f2;
+        color: v.$color-primary;
+    }
+
+    &:disabled {
+        opacity: 0.2;
+        cursor: default;
+    }
+}
+
+/* ── react-day-picker 전체 너비 커스텀 ── */
+.calendar {
+    width: 100%;
+    font-family: v.$font-family;
+
+    :global(.rdp-root) {
+        --rdp-accent-color: #{v.$color-primary};
+        --rdp-accent-background-color: #f2f2f2;
+        width: 100%;
+    }
+
+    /* 기본 내비게이션 버튼 숨김 (커스텀 캡션이 대체) */
+    :global(.rdp-nav) {
+        display: none;
+    }
+
+    :global(.rdp-months) {
+        width: 100%;
+    }
+
+    :global(.rdp-month) {
+        width: 100%;
+    }
+
+    :global(.rdp-month_grid) {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    :global(.rdp-weekdays) {
+        width: 100%;
+    }
+
+    :global(.rdp-weekday) {
+        font-size: v.$font-size-xs;
+        color: v.$color-text-secondary;
+        font-weight: 500;
+        padding: 4px 0 8px;
+        text-align: center;
+        width: calc(100% / 7);
+    }
+
+    :global(.rdp-week) {
+        width: 100%;
+    }
+
+    :global(.rdp-day) {
+        text-align: center;
+        padding: 2px 0;
+        width: calc(100% / 7);
+        height: min(calc(100vw / 7), 66px);
+    }
+
+    :global(.rdp-day_button) {
+        width: min(calc(100vw / 7 * 0.78), 52px);
+        height: min(calc(100vw / 7 * 0.78), 52px);
+        border-radius: 50%;
+        font-size: v.$font-size-sm;
+        font-family: v.$font-family;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        background: none;
+        border: none;
+        margin: 0 auto;
+        padding: 0;
+        gap: 3px;
+        -webkit-tap-highlight-color: transparent;
+
+        &:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+    }
+
+    :global(.rdp-selected) :global(.rdp-day_button) {
+        background: v.$color-primary;
+        color: #fff;
+    }
+
+    :global(.rdp-today):not(:global(.rdp-selected)) :global(.rdp-day_button) {
+        color: v.$color-primary;
+        font-weight: 700;
+    }
+
+    :global(.rdp-outside) :global(.rdp-day_button) {
+        opacity: 0.25;
+    }
+}
+
+/* ── 일기 있는 날 점 ── */
+.dot {
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: v.$color-secondary;
+    flex-shrink: 0;
+}
+
+:global(.rdp-selected) .dot {
+    background: rgba(255, 255, 255, 0.7);
+}
+
+/* ── 일기 미리보기 섹션 ── */
+.entrySection {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* ── 일기 카드 ── */
+.entryCard {
+    padding: 20px v.$page-padding-x;
+    cursor: pointer;
+    height: 100%;
+    box-sizing: border-box;
+
+    &:active {
+        background: #f9f9f9;
+    }
+}
+
+.entryDate {
+    font-size: v.$font-size-lg;
+    font-weight: 700;
+    color: v.$color-primary;
+    margin-bottom: 10px;
+}
+
+.entryContent {
+    font-size: v.$font-size-base;
+    color: v.$color-text;
+    line-height: 1.7;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    p, div { display: inline; }
+    br { display: inline; }
+}
+
+/* ── 썸네일 ── */
+.thumbnails {
+    @include m.photo-list;
+    margin-top: 12px;
+}
+
+.thumbnail {
+    @include m.photo-thumb;
+}
+
+/* ── 빈 상태 ── */
+.emptyState {
+    @include m.flex-center;
+    height: 100%;
+    padding: 40px 0;
+}
+
+.emptyText {
+    font-size: v.$font-size-base;
+    color: v.$color-text-secondary;
+}

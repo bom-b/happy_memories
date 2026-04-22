@@ -1,0 +1,79 @@
+@use '../styles/variables' as v;
+@use '../styles/mixins' as m;
+
+/* ── 모달 오버레이 ── */
+.overlay {
+    z-index: 10000;
+    position: relative;
+}
+
+.modal {
+    min-height: 100dvh;
+    max-width: v.$max-content-width;
+    margin: 0 auto;
+    background: v.$color-bg;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* ── 상단 헤더 ── */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: v.$color-bg;
+    height: v.$header-height;
+}
+
+.headerInner {
+    @include m.flex-between;
+    height: 100%;
+    padding: 0 v.$header-padding-x;
+}
+
+.headerActions {
+    display: flex;
+    gap: 4px;
+}
+
+.iconBtn {
+    @include m.icon-btn;
+}
+
+/* ── 스크롤 영역 ── */
+.scrollable {
+}
+
+.content {
+    padding: 28px v.$page-padding-x 40px;
+}
+
+/* ── 날짜 ── */
+.date {
+    font-size: v.$font-size-xl;
+    font-weight: 700;
+    color: v.$color-primary;
+    margin-bottom: 16px;
+}
+
+/* ── 본문 ── */
+.text {
+    font-size: v.$font-size-base;
+    font-family: v.$font-family;
+    color: v.$color-text;
+    line-height: 1.7;
+    margin-bottom: 24px;
+
+    @include m.prose-content;
+}
+
+/* ── 이미지 ── */
+.images {
+    @include m.photo-list;
+}
+
+.image {
+    @include m.photo-thumb;
+    cursor: pointer;
+}

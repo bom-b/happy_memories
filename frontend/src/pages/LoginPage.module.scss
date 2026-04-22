@@ -1,0 +1,59 @@
+@use '../styles/variables' as v;
+@use '../styles/mixins' as m;
+
+.page {
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px v.$page-padding-x;
+}
+
+.container {
+    width: 100%;
+    max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    gap: 52px;
+}
+
+.header {
+    text-align: center;
+}
+
+.title {
+    font-size: v.$font-size-2xl;
+    font-weight: 800;
+    line-height: 1.2;
+    color: v.$color-primary;
+    letter-spacing: -0.5px;
+}
+
+.subtitle {
+    margin-top: 18px;
+    font-size: v.$font-size-sm;
+    color: v.$color-text-secondary;
+    line-height: 1.8;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input {
+    @include m.underline-input;
+}
+
+.loginButton {
+    @include m.primary-btn;
+    margin-top: 12px;
+}
+
+.error {
+    font-size: v.$font-size-sm;
+    color: #e53e3e;
+    text-align: center;
+    margin: -8px 0;
+}

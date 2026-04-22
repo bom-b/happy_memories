@@ -1,0 +1,94 @@
+@use '../styles/variables' as v;
+@use '../styles/mixins' as m;
+
+.page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+}
+
+/* ── 헤더 ── */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: v.$color-bg;
+    height: v.$header-height;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 v.$header-padding-x;
+}
+
+.iconBtn {
+    @include m.icon-btn;
+}
+
+.saveBtn {
+    @include m.save-btn;
+}
+
+/* ── 스크롤 영역 ── */
+
+.content {
+    padding: 20px v.$page-padding-x;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* ── 날짜 ── */
+.dateLabel {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: v.$font-size-xl;
+    font-weight: 700;
+    font-family: v.$font-family;
+    color: v.$color-primary;
+    text-align: left;
+    -webkit-tap-highlight-color: transparent;
+    width: fit-content;
+
+    &:hover {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+}
+
+/* ── 본문 입력 (TipTap 에디터) ── */
+.editor {
+    @include m.editor-content;
+}
+
+/* ── 사진 영역 ── */
+.photoRow {
+    margin-top: 4px;
+}
+
+.galleryBtn {
+    @include m.icon-btn;
+    color: v.$color-secondary;
+    padding: 0;
+}
+
+.photoList {
+    @include m.photo-list;
+}
+
+.photoThumb {
+    @include m.photo-thumb;
+}
+
+.photoThumbWrapper {
+    @include m.photo-thumb-wrapper;
+}
+
+.removePhotoBtn {
+    @include m.photo-remove-btn;
+}
+
+.addPhotoBtn {
+    @include m.photo-add-btn;
+}

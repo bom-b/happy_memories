@@ -1,0 +1,70 @@
+# backend/ 변경 시 백엔드 이미지를 빌드하고 서버에 배포하는 workflow
+
+name: Deploy Backend to Production
+
+on:
+    push:
+        branches: [ "main" ]
+        paths:
+            - 'backend/**'
+
+permissions:
+    contents: read
+    packages: write
+
+jobs:
+    build-and-push:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Log in to GitHub Container Registry
+              uses: docker/login-action@v2
+              with:
+                  registry: ghcr.io
+                  username: ${{ github.actor }}
+                  password: ${{ secrets.GITHUB_TOKEN }}
+
+            # 빌드 컨텍스트를 backend/ 로 지정
+            - name: Build and push Docker image
+              run: |
+                  IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/happy-memories-backend
+                  docker build -t $IMAGE_NAME:latest backend/
+                  docker push $IMAGE_NAME:latest
+
+            # 루트 deploy/ 폴더를 서버로 복사
+            - name: Copy deploy files to server
+              uses: appleboy/scp-action@v0.1.7
+              with:
+                  host: ${{ secrets.SERVER_IP }}
+                  port: ${{ secrets.SERVER_SSH_PORT }}
+                  username: ${{ secrets.SERVER_USER }}
+                  key: ${{ secrets.SERVER_SSH_KEY }}
+                  source: "deploy/*"
+                  target: "/home/${{ secrets.SERVER_USER }}/deploy/happymemories/"
+                  strip_components: 1
+
+            # 백엔드 서비스만 재시작
+            - name: Deploy backend with podman-compose
+              uses: appleboy/ssh-action@v1.0.0
+              with:
+                  host: ${{ secrets.SERVER_IP }}
+                  port: ${{ secrets.SERVER_SSH_PORT }}
+                  username: ${{ secrets.SERVER_USER }}
+                  key: ${{ secrets.SERVER_SSH_KEY }}
+                  script: |
+                      cd /home/${{ secrets.SERVER_USER }}/deploy/happymemories
+
+                      # podman-compose가 읽을 .env 파일을 GitHub Secrets로 생성/갱신
+                      echo "${{ secrets.ENV_FILE }}" > .env
+                      echo "REPOSITORY_OWNER=${{ github.repository_owner }}" >> .env
+                      chmod 600 .env
+
+                      echo ${{ secrets.GITHUB_TOKEN }} | podman login ghcr.io -u ${{ github.actor }} --password-stdin
+
+                      podman-compose pull backend
+                      podman-compose up -d --no-deps backend
+
+                      podman image prune -f

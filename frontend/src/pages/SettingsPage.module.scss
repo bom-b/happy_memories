@@ -1,0 +1,75 @@
+@use '../styles/variables' as v;
+@use '../styles/mixins' as m;
+
+.page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+}
+
+/* ── 헤더 ── */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: v.$color-bg;
+    height: v.$header-height;
+    display: flex;
+    align-items: center;
+    padding: 0 v.$page-padding-x;
+    gap: 8px;
+}
+
+.backBtn {
+    @include m.icon-btn;
+    color: v.$color-primary;
+    margin-left: -8px;
+}
+
+.headerTitle {
+    font-size: v.$font-size-base;
+    font-weight: 600;
+}
+
+/* ── 본문 ── */
+.content {
+    flex: 1;
+    padding: 32px v.$page-padding-x;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.profile {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.name {
+    font-size: v.$font-size-xl;
+    font-weight: 700;
+    color: v.$color-text;
+}
+
+.email {
+    font-size: v.$font-size-base;
+    color: v.$color-text-secondary;
+}
+
+.actions {
+    @include m.flex-center;
+    width: 100%;
+}
+
+.logoutBtn {
+    @include m.primary-btn;
+    background: transparent;
+    color: v.$color-text;
+    border: 1.5px solid v.$color-border;
+
+    &:active {
+        opacity: 0.6;
+    }
+}

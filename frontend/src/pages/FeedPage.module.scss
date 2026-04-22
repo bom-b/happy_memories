@@ -1,0 +1,190 @@
+@use '../styles/variables' as v;
+@use '../styles/mixins' as m;
+
+.page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+}
+
+/* ── 상단 헤더 ── */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: v.$color-bg;
+    height: v.$header-height;
+}
+
+.headerInner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 v.$header-padding-x;
+}
+
+.headerActions {
+    display: flex;
+    gap: 4px;
+}
+
+/* ── 검색 바 ── */
+.searchBar {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 8px;
+    width: 100%;
+}
+
+.searchInput {
+    flex: 1;
+    max-width: 400px;
+    height: 36px;
+    border: none;
+    border-bottom: 1.5px solid v.$color-primary;
+    background: transparent;
+    font-size: v.$font-size-base;
+    color: v.$color-primary;
+    outline: none;
+
+    &::placeholder {
+        color: v.$color-text-secondary;
+    }
+}
+
+.searchSubmitBtn {
+    @include m.primary-btn;
+    width: auto;
+    padding: 10px 20px;
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
+.iconBtnBlack {
+    @include m.icon-btn;
+    color: v.$color-primary;
+}
+
+.iconBtnGray {
+    @include m.icon-btn;
+    color: v.$color-secondary;
+}
+
+/* ── 스크롤 영역 ── */
+.scrollable {
+}
+
+.content {
+    padding: 0;
+}
+
+/* ── 연도 라벨 ── */
+.yearLabel {
+    font-size: v.$font-size-base;
+    color: v.$color-text-secondary;
+    margin-bottom: 6px;
+}
+
+/* ── 일기 목록 ── */
+.entryList {
+}
+
+.entryItem {
+    padding: 16px 16px;
+    border-bottom: 1px solid v.$color-border;
+    cursor: pointer;
+
+    &:active {
+        background: #f9f9f9;
+    }
+}
+
+.entryDate {
+    font-size: v.$font-size-lg;
+    font-weight: 700;
+    color: v.$color-primary;
+    margin-bottom: 6px;
+}
+
+.entryContent {
+    font-size: v.$font-size-base;
+    color: v.$color-text;
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    // HTML 인라인 요소의 줄바꿈 처리
+    p, div { display: inline; }
+    br { display: inline; }
+}
+
+/* ── 썸네일 ── */
+.thumbnails {
+    @include m.photo-list;
+    margin-top: 10px;
+}
+
+.thumbnail {
+    @include m.photo-thumb;
+}
+
+/* ── 로딩 텍스트 ── */
+.loadingText {
+    text-align: center;
+    font-size: v.$font-size-sm;
+    color: v.$color-text-secondary;
+    padding: 16px 0;
+}
+
+/* ── 하단 내비게이션 ── */
+.bottomNav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    width: 100%;
+    max-width: v.$max-content-width;
+    z-index: 10;
+    background: v.$color-bg;
+    height: v.$bottom-nav-height;
+    transition: transform 0.3s ease;
+}
+
+.bottomNavHidden {
+    transform: translateX(-50%) translateY(100%);
+}
+
+.bottomNavInner {
+    @include m.flex-center;
+    height: 100%;
+    gap: 36px;
+}
+
+.addBtn {
+    @include m.flex-center;
+    width: 64px;
+    height: 44px;
+    border-radius: 25%;
+    background: #f2f2f2;
+    color: v.$color-secondary;
+    border: none;
+    cursor: pointer;
+
+    &:active {
+        opacity: 0.7;
+    }
+}
+
+.addIcon {
+    font-size: 26px;
+    color: v.$color-primary;
+    line-height: 1;
+    margin-top: -2px;
+}

@@ -1,0 +1,8 @@
+@use './styles/variables' as v;
+
+.appWrapper {
+    max-width: v.$max-content-width;
+    background: v.$color-bg;
+    margin: 0 auto;
+    min-height: 100%;
+}

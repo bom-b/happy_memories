@@ -1,0 +1,207 @@
+@use 'variables' as v;
+
+/** 플렉스 중앙 정렬 */
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/** 플렉스 양끝 정렬 */
+@mixin flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/** 아이콘 버튼 공통 스타일 */
+@mixin icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/** 언더라인 인풋 공통 스타일 */
+@mixin underline-input {
+    width: 100%;
+    border: none;
+    border-bottom: 1.5px solid v.$color-border;
+    background: transparent;
+    font-size: v.$font-size-base;
+    font-family: v.$font-family;
+    color: v.$color-text;
+    padding: 10px 2px;
+    outline: none;
+
+    &::placeholder {
+        color: v.$color-text-secondary;
+    }
+
+    &:focus {
+        border-bottom-color: v.$color-primary;
+    }
+}
+
+/** 프라이머리 버튼 공통 스타일 */
+@mixin primary-btn {
+    width: 100%;
+    padding: 16px;
+    background: v.$color-primary;
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    font-size: v.$font-size-base;
+    font-family: v.$font-family;
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+
+    &:active {
+        opacity: 0.75;
+    }
+}
+
+/** 헤더 우측 저장/완료 버튼 */
+@mixin save-btn {
+    @include primary-btn;
+    width: auto;
+    padding: 10px 20px;
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
+/** 스크롤 가능 영역 (flex: 1 + overflow-y) */
+@mixin scrollable-area {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/** 서식 텍스트 공통 단락·목록 스타일 */
+@mixin prose-content {
+    p {
+        margin: 0;
+    }
+
+    ul {
+        padding-left: 1.4em;
+        list-style-type: disc;
+
+        ul {
+            padding-left: 1.4em;
+            list-style-type: circle;
+
+            ul {
+                list-style-type: square;
+            }
+        }
+    }
+
+    li {
+        margin: 0;
+
+        p {
+            margin: 0;
+        }
+    }
+}
+
+/** TipTap 에디터 공통 스타일 */
+@mixin editor-content {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: v.$font-size-base;
+    font-family: v.$font-family;
+    color: v.$color-text;
+    line-height: 1.7;
+    background: transparent;
+
+    @include prose-content;
+
+    :global(p.is-empty:first-child::before) {
+        content: attr(data-placeholder);
+        color: v.$color-text-secondary;
+        pointer-events: none;
+        float: left;
+        height: 0;
+    }
+}
+
+/** 사진 가로 스크롤 컨테이너 */
+@mixin photo-list {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+    cursor: grab;
+    user-select: none;
+
+    // 스크롤바 숨기기
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+/** 사진 썸네일 정사각형 */
+@mixin photo-thumb {
+    width: v.$photo-thumb-size;
+    height: v.$photo-thumb-size;
+    border-radius: 10px;
+    object-fit: cover;
+    flex-shrink: 0;
+    display: block;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/** 사진 썸네일 래퍼 (삭제 버튼 포지셔닝용) */
+@mixin photo-thumb-wrapper {
+    position: relative;
+    flex-shrink: 0;
+}
+
+/** 사진 삭제(×) 버튼 */
+@mixin photo-remove-btn {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+/** 사진 추가(+) 버튼 */
+@mixin photo-add-btn {
+    @include icon-btn;
+    width: v.$photo-thumb-size;
+    height: v.$photo-thumb-size;
+    border-radius: 10px;
+    border: 1.5px dashed v.$color-border;
+    color: v.$color-secondary;
+    flex-shrink: 0;
+}

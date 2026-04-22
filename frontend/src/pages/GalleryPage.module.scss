@@ -1,0 +1,83 @@
+@use '../styles/variables' as v;
+@use '../styles/mixins' as m;
+
+.page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+}
+
+/* ── 상단 헤더 ── */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: v.$color-bg;
+    height: v.$header-height;
+}
+
+.headerInner {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 100%;
+    padding: 0 v.$header-padding-x;
+}
+
+.title {
+    font-size: v.$font-size-base;
+    font-weight: 600;
+    color: v.$color-text;
+}
+
+.iconBtn {
+    @include m.icon-btn;
+}
+
+/* ── 스크롤 영역 ── */
+.scrollable {
+}
+
+/* ── 그리드 ── */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+}
+
+.monthLabel {
+    grid-column: 1 / -1;
+    padding: 20px 8px 8px;
+    font-size: v.$font-size-base;
+    color: v.$color-text-secondary;
+}
+
+.photoCell {
+    aspect-ratio: 1;
+    overflow: hidden;
+    cursor: pointer;
+    background: none;
+    padding: 0;
+    display: block;
+    border: 1px solid v.$color-secondary;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    &:active {
+        opacity: 0.8;
+    }
+}
+
+/* ── 상태 텍스트 ── */
+.loadingText,
+.emptyText {
+    text-align: center;
+    padding: 32px v.$page-padding-x;
+    font-size: v.$font-size-sm;
+    color: v.$color-text-secondary;
+}

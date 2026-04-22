@@ -1,0 +1,64 @@
+spring:
+  profiles:
+    active: local # 기본 profile 설정
+  application:
+    name: happy_memories_backend
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 100MB
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        default_schema: public
+
+server:
+  servlet:
+    context-path: /api
+
+jwt:
+  secret: ${JWT_SECRET_KEY}
+  access-token-expiry: 1800000 # 30분 (ms)
+  refresh-token-expiry-days: 60 # 2달
+
+# 개발환경 프로파일
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+jwt:
+  cookie-secure: false
+
+app:
+  upload:
+    path: ./uploads
+
+# 운영환경 프로파일
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    url: jdbc:postgresql://db:5432/${DB_NAME} # Docker Compose에서 db 서비스의 호스트명
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+jwt:
+  cookie-secure: true
+
+app:
+  upload:
+    path: /data/uploads
