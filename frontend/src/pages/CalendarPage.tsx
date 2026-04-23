@@ -115,7 +115,7 @@ function CalendarPage() {
         <div className={styles.page}>
             <header className={styles.header}>
                 <div className={styles.headerInner}>
-                    <button className={styles.iconBtn} onClick={() => navigate(-1)} aria-label="뒤로가기">
+                    <button className={styles.iconBtn} onClick={() => navigate('/feed')} aria-label="뒤로가기">
                         <ArrowBackIcon width={22} height={18}/>
                     </button>
                     <span className={styles.title}>캘린더</span>

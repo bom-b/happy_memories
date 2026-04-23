@@ -3,6 +3,7 @@ import Lightbox from 'yet-another-react-lightbox'
 import 'yet-another-react-lightbox/styles.css'
 import type {DiaryPhoto} from '../types'
 import styles from './PhotoLightbox.module.scss'
+import {useModalHistory} from "../utils/useModalHistory.ts";
 
 interface Props {
     photos: DiaryPhoto[]
@@ -25,6 +26,9 @@ interface Props {
  */
 function PhotoLightbox({photos, initialIndex, onClose, onViewDiary, diaryIds, onIndexChange, zIndex}: Props) {
     const [currentIndex, setCurrentIndex] = useState(initialIndex)
+
+    useModalHistory(onClose)
+
     // 라이트박스가 열리기 전(마운트 시점)의 스크롤바 너비를 캡처합니다.
     // 라이트박스는 열릴 때 body에 overflow:hidden을 걸어 스크롤바를 제거하고
     // 뷰포트 너비가 넓어지므로, left: 50%가 콘텐츠 중심과 어긋납니다.

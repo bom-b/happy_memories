@@ -101,7 +101,7 @@ function WritePage() {
     return (
         <div className={styles.page}>
             <header className={styles.header}>
-                <button className={styles.iconBtn} onClick={() => navigate(-1)} aria-label="뒤로가기">
+                <button className={styles.iconBtn} onClick={() => navigate('/feed')} aria-label="뒤로가기">
                     <ArrowBackIcon width={22} height={18}/>
                 </button>
                 <button className={styles.saveBtn} onClick={handleSave} disabled={saving}>
