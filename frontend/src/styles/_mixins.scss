@@ -91,6 +91,10 @@
         margin: 0;
     }
 
+    p:empty::before {
+        content: '\00a0';
+    }
+
     ul {
         padding-left: 1.4em;
         list-style-type: disc;
@@ -102,6 +106,15 @@
             ul {
                 list-style-type: square;
             }
+        }
+    }
+
+    ol {
+        padding-left: 1.4em;
+        list-style-type: decimal;
+
+        ol {
+            list-style-type: lower-alpha;
         }
     }
 

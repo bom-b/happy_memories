@@ -115,14 +115,10 @@
     font-size: v.$font-size-base;
     color: v.$color-text;
     line-height: 1.6;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
+    max-height: calc(1.6em * 4 * 1.5);
     overflow: hidden;
 
-    // HTML 인라인 요소의 줄바꿈 처리
-    p, div { display: inline; }
-    br { display: inline; }
+    @include m.prose-content;
 }
 
 /* ── 썸네일 ── */
