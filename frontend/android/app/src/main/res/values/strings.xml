@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Happy Memories</string>
+    <string name="title_activity_main">Happy Memories</string>
+    <string name="package_name">com.potatonetwork.happymemories</string>
+    <string name="custom_url_scheme">com.potatonetwork.happymemories</string>
+</resources>
