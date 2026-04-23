@@ -172,6 +172,7 @@
 @mixin photo-thumb {
     width: v.$photo-thumb-size;
     height: v.$photo-thumb-size;
+    border: 1px solid #eaeaea;
     border-radius: 10px;
     object-fit: cover;
     flex-shrink: 0;

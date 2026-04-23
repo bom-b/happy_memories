@@ -5,6 +5,7 @@
     display: flex;
     flex-direction: column;
     min-height: 100dvh;
+    padding: 4px;
 }
 
 /* ── 상단 헤더 ── */
@@ -59,7 +60,7 @@
     background: none;
     padding: 0;
     display: block;
-    border: 1px solid v.$color-secondary;
+    border: 1px solid #eaeaea;
 
     img {
         width: 100%;
