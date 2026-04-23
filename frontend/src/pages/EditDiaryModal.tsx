@@ -10,6 +10,7 @@ import ArrowBackIcon from '../assets/icon/arrow-back.svg?react'
 import GalleryIcon from '../assets/icon/gallery1.svg?react'
 import PlusIcon from '../assets/icon/plus.svg?react'
 import DragScrollContainer from '../components/DragScrollContainer'
+import KeyboardToolbar from '../components/KeyboardToolbar'
 import styles from './EditDiaryModal.module.scss'
 
 interface Props {
@@ -179,6 +180,7 @@ function EditDiaryModal({entry, onClose, onSave}: Props) {
                     hidden
                     onChange={handleFileChange}
                 />
+                <KeyboardToolbar editor={editor}/>
             </div>
         </div>,
         document.body,

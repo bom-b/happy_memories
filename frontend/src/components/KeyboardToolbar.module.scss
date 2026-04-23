@@ -1,0 +1,22 @@
+@use '../styles/variables' as v;
+@use '../styles/mixins' as m;
+
+.toolbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 44px;
+    background: v.$color-bg;
+    border-top: 1px solid v.$color-border;
+    display: flex;
+    align-items: center;
+    padding: 0 v.$header-padding-x;
+    z-index: 100;
+    gap: 4px;
+}
+
+.iconBtn {
+    @include m.icon-btn;
+    color: v.$color-secondary;
+}

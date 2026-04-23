@@ -9,6 +9,7 @@ import ArrowBackIcon from '../assets/icon/arrow-back.svg?react'
 import {createDiary} from '../api/diary'
 import DatePickerModal from '../components/DatePickerModal'
 import DragScrollContainer from '../components/DragScrollContainer'
+import KeyboardToolbar from '../components/KeyboardToolbar'
 import styles from './WritePage.module.scss'
 
 /**
@@ -172,6 +173,8 @@ function WritePage() {
                     onClose={() => setShowDatePicker(false)}
                 />
             )}
+
+            <KeyboardToolbar editor={editor}/>
         </div>
     )
 }
