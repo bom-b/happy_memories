@@ -6,6 +6,7 @@ import {deleteDiary} from '../api/diary'
 import EditDiaryModal from './EditDiaryModal'
 import DragScrollContainer from '../components/DragScrollContainer'
 import PhotoLightbox from '../components/PhotoLightbox'
+import {useModalHistory} from '../utils/useModalHistory'
 import ArrowBackIcon from '../assets/icon/arrow-back.svg?react'
 import PencilIcon from '../assets/icon/pencil.svg?react'
 import DeleteIcon from '../assets/icon/delete.svg?react'
@@ -26,6 +27,8 @@ function DetailModal({entry, onClose, onDelete, onUpdate}: Props) {
     const [year, month, day] = currentEntry.diaryDate.split('-').map(Number)
     const [showEdit, setShowEdit] = useState(false)
     const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+
+    useModalHistory(onClose)
 
     /** 모달이 열려 있는 동안 #root를 숨겨 body 스크롤이 모달 콘텐츠 기준으로 동작하게 합니다. */
     useEffect(() => {

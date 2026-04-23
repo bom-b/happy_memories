@@ -11,6 +11,7 @@ import GalleryIcon from '../assets/icon/gallery1.svg?react'
 import PlusIcon from '../assets/icon/plus.svg?react'
 import DragScrollContainer from '../components/DragScrollContainer'
 import KeyboardToolbar from '../components/KeyboardToolbar'
+import {useModalHistory} from '../utils/useModalHistory'
 import styles from './EditDiaryModal.module.scss'
 
 interface Props {
@@ -30,6 +31,8 @@ function EditDiaryModal({entry, onClose, onSave}: Props) {
     const [newPhotos, setNewPhotos] = useState<File[]>([])
     const [saving, setSaving] = useState(false)
     const fileInputRef = useRef<HTMLInputElement>(null)
+
+    useModalHistory(onClose)
 
     const editor = useEditor({
         extensions: [
