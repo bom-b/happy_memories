@@ -3,7 +3,7 @@ import {useNavigate} from 'react-router-dom'
 import type {DiaryEntry, GalleryPhoto} from '../types'
 import {fetchGalleryPhotos, fetchDiary} from '../api/diary'
 import PhotoLightbox from '../components/PhotoLightbox'
-import DetailModal from './DetailModal'
+import DetailModal from '../modals/DetailModal'
 import ArrowBackIcon from '../assets/icon/arrow-back.svg?react'
 import styles from './GalleryPage.module.scss'
 
