@@ -19,7 +19,9 @@ import useUserStore from './store/userStore'
  */
 function App() {
     const setUser = useUserStore((s) => s.setUser)
+    const setInitializing = useUserStore((s) => s.setInitializing)
     const user = useUserStore((s) => s.user)
+    const initializing = useUserStore((s) => s.initializing)
     const navigate = useNavigate()
     const location = useLocation()
     const exitReadyRef = useRef(false)
@@ -71,7 +73,18 @@ function App() {
         fetchMe()
             .then(({data}) => setUser(data))
             .catch(() => {})
-    }, [setUser])
+            .finally(() => setInitializing(false))
+    }, [setUser, setInitializing])
+
+    if (initializing) {
+        return (
+            <div className={styles.appWrapper}>
+                <div className={styles.spinnerWrapper}>
+                    <div className={styles.spinner}/>
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div className={styles.appWrapper}>
