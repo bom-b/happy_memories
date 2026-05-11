@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: local # 기본 profile 설정
+    active: dev # 기본 profile 설정
   application:
     name: happy_memories_backend
   servlet:
@@ -30,7 +30,7 @@ jwt:
 spring:
   config:
     activate:
-      on-profile: local
+      on-profile: dev
   datasource:
     url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
     username: ${DB_USERNAME}
@@ -51,7 +51,7 @@ spring:
     activate:
       on-profile: prod
   datasource:
-    url: jdbc:postgresql://db:5432/${DB_NAME} # Docker Compose에서 db 서비스의 호스트명
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver

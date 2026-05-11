@@ -12,8 +12,8 @@ services:
         restart: unless-stopped
         environment:
             SPRING_PROFILES_ACTIVE: prod
-            DB_HOST: ${DB_HOST}
-            DB_PORT: ${DB_PORT}
+            DB_HOST: db      # Docker Compose 내부 서비스명
+            DB_PORT: 5432    # PostgreSQL 기본 포트
             DB_NAME: ${DB_NAME}
             DB_USERNAME: ${DB_USERNAME}
             DB_PASSWORD: ${DB_PASSWORD}
