@@ -50,7 +50,7 @@ GitHub (main 브랜치)
     ├── frontend   (Nginx + React 빌드 결과물)
     ├── backend    (Spring Boot JAR)
     ├── db         (PostgreSQL)
-    └── cloudflared (Cloudflare Tunnel → https://bombi.cloud)
+    └── cloudflared (Cloudflare Tunnel)
 ```
 
 - `frontend/`와 `backend/`는 각각 독립 워크플로우로 관리되어, 변경된 서비스만 재배포됩니다.
