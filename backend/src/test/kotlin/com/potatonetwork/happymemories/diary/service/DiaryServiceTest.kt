@@ -2,6 +2,7 @@ package com.potatonetwork.happymemories.diary.service
 
 import com.potatonetwork.happymemories.diary.dto.CreateDiaryRequest
 import com.potatonetwork.happymemories.diary.entity.Diary
+import com.potatonetwork.happymemories.diary.repository.DiaryPhotoRepository
 import com.potatonetwork.happymemories.diary.repository.DiaryRepository
 import com.potatonetwork.happymemories.user.entity.User
 import com.potatonetwork.happymemories.user.repository.UserRepository
@@ -26,7 +27,11 @@ class DiaryServiceTest {
     @Mock
     private lateinit var diaryRepository: DiaryRepository
     @Mock
+    private lateinit var diaryPhotoRepository: DiaryPhotoRepository
+    @Mock
     private lateinit var userRepository: UserRepository
+    @Mock
+    private lateinit var imageStorageService: ImageStorageService
 
     @InjectMocks
     private lateinit var diaryService: DiaryService
