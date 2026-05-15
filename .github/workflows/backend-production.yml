@@ -79,4 +79,7 @@ jobs:
                       podman-compose pull backend
                       podman-compose up -d --no-deps --force-recreate backend
 
+                      # 백엔드 컨테이너 IP가 바뀌었으므로 nginx가 hostname을 다시 resolve하도록 reload
+                      podman exec happy-memories-frontend nginx -s reload
+
                       podman image prune -f
