@@ -1,26 +1,27 @@
 package com.potatonetwork.happymemories.auth.service
 
-import java.time.LocalDateTime
 import com.potatonetwork.happymemories.user.entity.RefreshToken
 import com.potatonetwork.happymemories.user.entity.User
 import com.potatonetwork.happymemories.user.repository.RefreshTokenRepository
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.Mockito.verify
-import org.mockito.Mockito.verifyNoMoreInteractions
-import org.mockito.Mockito.`when`
+import org.mockito.Mockito.*
 import org.mockito.junit.jupiter.MockitoExtension
-import java.util.Optional
+import java.time.LocalDateTime
+import java.util.*
 
 @ExtendWith(MockitoExtension::class)
 class TokenRefreshServiceTest {
 
-    @Mock private lateinit var refreshTokenRepository: RefreshTokenRepository
+    @Mock
+    private lateinit var refreshTokenRepository: RefreshTokenRepository
 
-    @InjectMocks private lateinit var tokenRefreshService: TokenRefreshService
+    @InjectMocks
+    private lateinit var tokenRefreshService: TokenRefreshService
 
     private val newExpiry = LocalDateTime.now().plusDays(60)
 
@@ -32,7 +33,8 @@ class TokenRefreshServiceTest {
     ).also { it.id = id }
 
     @Test
-    fun `존재하지 않는 토큰이면 null을 반환한다`() {
+    @DisplayName("존재하지 않는 토큰이면 null을 반환한다")
+    fun validateAndRenew_withUnknownToken_returnsNull() {
         `when`(refreshTokenRepository.findByTokenWithUser("unknown-token")).thenReturn(Optional.empty())
 
         val result = tokenRefreshService.validateAndRenew("unknown-token", newExpiry)
@@ -41,7 +43,8 @@ class TokenRefreshServiceTest {
     }
 
     @Test
-    fun `만료된 토큰이면 null을 반환하고 갱신하지 않는다`() {
+    @DisplayName("만료된 토큰이면 null을 반환하고 갱신하지 않는다")
+    fun validateAndRenew_withExpiredToken_returnsNullAndSkipsUpdate() {
         val expiredToken = RefreshToken(
             user = makeUser(),
             token = "expired-token",
@@ -58,7 +61,8 @@ class TokenRefreshServiceTest {
     }
 
     @Test
-    fun `유효한 토큰이면 userId를 반환하고 만료 일시를 갱신한다`() {
+    @DisplayName("유효한 토큰이면 userId를 반환하고 만료 일시를 갱신한다")
+    fun validateAndRenew_withValidToken_returnsUserIdAndUpdatesExpiry() {
         val validToken = RefreshToken(
             user = makeUser(id = 7L),
             token = "valid-token",

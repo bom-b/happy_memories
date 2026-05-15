@@ -2,35 +2,34 @@ package com.potatonetwork.happymemories.diary.service
 
 import com.potatonetwork.happymemories.diary.dto.CreateDiaryRequest
 import com.potatonetwork.happymemories.diary.entity.Diary
-import com.potatonetwork.happymemories.diary.repository.DiaryPhotoRepository
 import com.potatonetwork.happymemories.diary.repository.DiaryRepository
 import com.potatonetwork.happymemories.user.entity.User
 import com.potatonetwork.happymemories.user.repository.UserRepository
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.Mockito.any
-import org.mockito.Mockito.verify
-import org.mockito.Mockito.`when`
+import org.mockito.Mockito.*
 import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.http.HttpStatus
 import org.springframework.mock.web.MockMultipartFile
 import org.springframework.web.server.ResponseStatusException
 import java.time.LocalDate
-import java.util.Optional
+import java.util.*
 
 @ExtendWith(MockitoExtension::class)
 class DiaryServiceTest {
 
-    @Mock private lateinit var diaryRepository: DiaryRepository
-    @Mock private lateinit var diaryPhotoRepository: DiaryPhotoRepository
-    @Mock private lateinit var userRepository: UserRepository
-    @Mock private lateinit var imageStorageService: ImageStorageService
+    @Mock
+    private lateinit var diaryRepository: DiaryRepository
+    @Mock
+    private lateinit var userRepository: UserRepository
 
-    @InjectMocks private lateinit var diaryService: DiaryService
+    @InjectMocks
+    private lateinit var diaryService: DiaryService
 
     /** 테스트용 User 객체를 생성 */
     private fun makeUser(id: Long = 1L) = User(
@@ -51,7 +50,8 @@ class DiaryServiceTest {
     ).also { it.id = id }
 
     @Test
-    fun `사진이 11장이면 400 Bad Request를 던진다`() {
+    @DisplayName("사진이 11장이면 400 Bad Request를 던진다")
+    fun create_withMoreThan10Photos_throwsBadRequest() {
         // 11개의 가짜 파일 목록을 만듭니다. DB 호출 없이 즉시 예외가 발생해야 합니다.
         val photos = (1..11).map { MockMultipartFile("photo", "img.jpg", "image/jpeg", ByteArray(1)) }
 
@@ -62,7 +62,8 @@ class DiaryServiceTest {
     }
 
     @Test
-    fun `같은 날짜에 이미 일기가 있으면 409 Conflict를 던진다`() {
+    @DisplayName("같은 날짜에 이미 일기가 있으면 409 Conflict를 던진다")
+    fun create_withDuplicateDate_throwsConflict() {
         val date = LocalDate.of(2024, 1, 15)
         `when`(userRepository.findById(1L)).thenReturn(Optional.of(makeUser()))
         `when`(diaryRepository.existsByUserIdAndDiaryDate(1L, date)).thenReturn(true)
@@ -74,7 +75,8 @@ class DiaryServiceTest {
     }
 
     @Test
-    fun `정상적인 일기 생성 요청은 저장 후 응답 DTO를 반환한다`() {
+    @DisplayName("정상적인 일기 생성 요청은 저장 후 응답 DTO를 반환한다")
+    fun create_withValidRequest_savesAndReturnsDto() {
         val date = LocalDate.of(2024, 1, 15)
         val diary = makeDiary(date = date).also { it.content = "내용" }
         `when`(userRepository.findById(1L)).thenReturn(Optional.of(makeUser()))
@@ -89,7 +91,8 @@ class DiaryServiceTest {
     }
 
     @Test
-    fun `다른 사용자의 일기를 수정하면 403 Forbidden을 던진다`() {
+    @DisplayName("다른 사용자의 일기를 수정하면 403 Forbidden을 던진다")
+    fun update_byNonOwner_throwsForbidden() {
         // 일기 소유자 id=99, 요청자 id=1 → 403
         `when`(diaryRepository.findById(1L)).thenReturn(Optional.of(makeDiary(userId = 99L)))
 
@@ -100,7 +103,8 @@ class DiaryServiceTest {
     }
 
     @Test
-    fun `유지 사진과 신규 사진 합계가 10장을 초과하면 400 Bad Request를 던진다`() {
+    @DisplayName("유지 사진과 신규 사진 합계가 10장을 초과하면 400 Bad Request를 던진다")
+    fun update_withExceedingPhotoCount_throwsBadRequest() {
         `when`(diaryRepository.findById(1L)).thenReturn(Optional.of(makeDiary()))
         val keepPhotoIds = (1L..8L).toList()   // 8장 유지
         val newPhotos = (1..3).map { MockMultipartFile("photo", "img.jpg", "image/jpeg", ByteArray(1)) } // 3장 추가
@@ -112,7 +116,8 @@ class DiaryServiceTest {
     }
 
     @Test
-    fun `다른 사용자의 일기를 삭제하면 403 Forbidden을 던진다`() {
+    @DisplayName("다른 사용자의 일기를 삭제하면 403 Forbidden을 던진다")
+    fun delete_byNonOwner_throwsForbidden() {
         `when`(diaryRepository.findById(1L)).thenReturn(Optional.of(makeDiary(userId = 99L)))
 
         val ex = assertThrows<ResponseStatusException> {
@@ -122,7 +127,8 @@ class DiaryServiceTest {
     }
 
     @Test
-    fun `소유자가 일기를 삭제하면 정상적으로 처리된다`() {
+    @DisplayName("소유자가 일기를 삭제하면 정상적으로 처리된다")
+    fun delete_byOwner_succeeds() {
         val diary = makeDiary(userId = 1L)
         `when`(diaryRepository.findById(1L)).thenReturn(Optional.of(diary))
 
@@ -132,7 +138,8 @@ class DiaryServiceTest {
     }
 
     @Test
-    fun `다른 사용자의 일기를 조회하면 403 Forbidden을 던진다`() {
+    @DisplayName("다른 사용자의 일기를 조회하면 403 Forbidden을 던진다")
+    fun findById_byNonOwner_throwsForbidden() {
         `when`(diaryRepository.findById(1L)).thenReturn(Optional.of(makeDiary(userId = 99L)))
 
         val ex = assertThrows<ResponseStatusException> {
